@@ -1,0 +1,41 @@
+﻿@* File: Areas/Admin/Views/Shared/_Layout.cshtml *@
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Quản trị - @ViewData["Title"]</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/admin.css" asp-append-version="true" />
+</head>
+<body>
+<header class="bg-dark text-white p-3">
+    <div class="container d-flex justify-content-between align-items-center">
+        <h3>Bảng Điều Khiển Admin</h3>
+        <a class="btn btn-sm btn-outline-light" asp-area="" asp-controller="Home" asp-action="Index">Trang chủ Website</a>
+    </div>
+</header>
+<div class="container mt-4">
+    <div class="row">
+        <nav class="col-md-3">
+            <ul class="nav flex-column">
+                <li class="nav-item">
+                    <a class="nav-link" asp-area="Admin" asp-controller="Dashboard" asp-action="Index">Dashboard</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" asp-area="Admin" asp-controller="Product" asp-action="Index">Quản lý Sản phẩm</a>
+                </li>
+            </ul>
+        </nav>
+        <main role="main" class="col-md-9">
+            @RenderBody()
+        </main>
+    </div>
+</div>
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+@await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

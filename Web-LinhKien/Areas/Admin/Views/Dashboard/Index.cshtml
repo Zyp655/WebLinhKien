@@ -1,0 +1,29 @@
+﻿@* File: Areas/Admin/Views/Dashboard/Index.cshtml *@
+@model Web_LinhKien.Areas.Admin.Models.DashboardViewModel
+
+@{
+    ViewData["Title"] = "Dashboard";
+    Layout = "_Layout";
+}
+
+<h1>Bảng Điều Khiển</h1>
+<p>Chào mừng bạn đến với khu vực quản trị.</p>
+
+<div class="row mt-4">
+    <div class="col-md-3">
+        <div class="card bg-info text-white">
+            <div class="card-body">
+                <h5 class="card-title">Tổng sản phẩm</h5>
+                <p class="card-text">@Model.TotalProducts</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card bg-success text-white">
+            <div class="card-body">
+                <h5 class="card-title">Tổng doanh thu</h5>
+                <p class="card-text">@Model.TotalRevenue.ToString("N0") VNĐ</p>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,20 @@
+﻿@* File: Views/Product/Detail.cshtml *@
+@model Web_LinhKien.Models.Product
+
+@{
+    ViewData["Title"] = @Model.Name;
+}
+
+<div class="row">
+    <div class="col-md-6">
+        <img src="@Url.Content(Model.ImageUrl)" alt="@Model.Name" class="img-fluid" />
+    </div>
+    <div class="col-md-6">
+        <h1>@Model.Name</h1>
+        <p><strong>Danh mục:</strong> @Model.Category.Name</p>
+        <h2>@Model.Price.ToString("N0") VNĐ</h2>
+        <p>@Model.Description</p>
+        <button class="btn btn-success">Thêm vào giỏ hàng</button>
+        <a asp-action="Index" class="btn btn-secondary">Quay lại danh sách</a>
+    </div>
+</div>
