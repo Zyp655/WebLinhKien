@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "ekkiEwS/hGs=",
+  "dgSpecHash": "fRVJk6j4HMo=",
   "success": true,
-  "projectFilePath": "C:\\Users\\leehi\\RiderProjects\\WebLinhKien\\Web-LinhKien\\Web-LinhKien.csproj",
+  "projectFilePath": "C:\\Users\\leehi\\RiderProjects\\Web_LinhKien\\Web-LinhKien\\Web-LinhKien.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\leehi\\.nuget\\packages\\azure.core\\1.38.0\\azure.core.1.38.0.nupkg.sha512",
     "C:\\Users\\leehi\\.nuget\\packages\\azure.identity\\1.11.4\\azure.identity.1.11.4.nupkg.sha512",

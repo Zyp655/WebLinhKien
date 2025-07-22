@@ -13,7 +13,12 @@
 <header class="bg-dark text-white p-3">
     <div class="container d-flex justify-content-between align-items-center">
         <h3>Bảng Điều Khiển Admin</h3>
-        <a class="btn btn-sm btn-outline-light" asp-area="" asp-controller="Home" asp-action="Index">Trang chủ Website</a>
+        <div> @* Thêm một div để nhóm các nút bên phải *@
+            <a class="btn btn-sm btn-outline-light me-2" asp-area="" asp-controller="Home" asp-action="Index">Trang chủ Website</a>
+            <form asp-area="" asp-controller="Account" asp-action="Logout" method="post" class="d-inline">
+                <button type="submit" class="btn btn-sm btn-outline-light">Đăng xuất</button>
+            </form>
+        </div>
     </div>
 </header>
 <div class="container mt-4">
@@ -29,6 +34,22 @@
             </ul>
         </nav>
         <main role="main" class="col-md-9">
+            @* Thêm phần hiển thị thông báo TempData vào đây (giữ nguyên từ sửa đổi trước) *@
+            @if (TempData["SuccessMessage"] != null)
+            {
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    @TempData["SuccessMessage"]
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            }
+            @if (TempData["ErrorMessage"] != null)
+            {
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    @TempData["ErrorMessage"]
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            }
+            
             @RenderBody()
         </main>
     </div>

@@ -3,7 +3,8 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Web_LinhKien.Data;
-using Web_LinhKien.Services; // Đảm bảo namespace này đúng
+using Web_LinhKien.Models; // Thêm namespace của User model
+using Web_LinhKien.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,8 +17,9 @@ builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(connectionString));
 
 // 3. Cấu hình ASP.NET Core Identity
-builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false)
-    .AddRoles<IdentityRole>() // Thêm hỗ trợ Roles
+// Thay đổi IdentityUser thành User và IdentityRole thành IdentityRole<int>
+builder.Services.AddDefaultIdentity<User>(options => options.SignIn.RequireConfirmedAccount = false)
+    .AddRoles<IdentityRole<int>>() // Sử dụng IdentityRole<int> vì User.Id là int
     .AddEntityFrameworkStores<AppDbContext>();
 
 // 4. Đăng ký Email Service
@@ -33,17 +35,16 @@ var app = builder.Build();
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
 
 app.UseHttpsRedirection();
-app.UseStaticFiles(); // Cho phép phục vụ các tệp tĩnh từ wwwroot
+app.UseStaticFiles();
 
 app.UseRouting();
 
 // 5. Thêm Authentication và Authorization Middleware
-app.UseAuthentication(); // Phải đứng trước UseAuthorization
+app.UseAuthentication();
 app.UseAuthorization();
 
 // 6. Cấu hình Routing cho Admin Area

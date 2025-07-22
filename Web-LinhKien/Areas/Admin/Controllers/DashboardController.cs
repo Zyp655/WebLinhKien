@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 namespace Web_LinhKien.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    [Authorize(Roles = "Admin")] // Chỉ cho phép Admin truy cập
+    [Authorize(Roles = "Admin")] 
     public class DashboardController : Controller
     {
         private readonly AppDbContext _context;

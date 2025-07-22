@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace Web_LinkKien.Areas.Admin.Views.Shared;
+namespace Web_LinkKien.Areas.Admin.Views.Product;
 
-public class _Layout : PageModel
+public class Delete : PageModel
 {
     public void OnGet()
     {

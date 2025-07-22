@@ -16,14 +16,14 @@ namespace Web_LinhKien.Controllers
 
         public async Task<IActionResult> Index()
         {
-            // Lấy tất cả sản phẩm, có thể thêm logic phân trang, lọc
+          
             var products = await _context.Products.ToListAsync();
             return View(products);
         }
 
         public async Task<IActionResult> Detail(int id)
         {
-            // Tìm sản phẩm theo ID, bao gồm cả thông tin danh mục
+          
             var product = await _context.Products
                 .Include(p => p.Category)
                 .FirstOrDefaultAsync(p => p.Id == id);

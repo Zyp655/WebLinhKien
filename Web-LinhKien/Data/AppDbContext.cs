@@ -3,17 +3,17 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Web_LinhKien.Models;
+using System.Collections.Generic;
 
 namespace Web_LinhKien.Data
 {
-    public class AppDbContext : IdentityDbContext<IdentityUser>
+    public class AppDbContext : IdentityDbContext<User, IdentityRole<int>, int>
     {
         public AppDbContext(DbContextOptions<AppDbContext> options)
             : base(options)
         {
         }
 
-        // Định nghĩa các DbSet cho các Model của bạn
         public DbSet<Product> Products { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<Order> Orders { get; set; }
@@ -29,12 +29,11 @@ namespace Web_LinhKien.Data
         {
             base.OnModelCreating(builder);
 
-            // Dữ liệu seeding cho người dùng Admin
-            var adminRoleId = "a08e1d7a-1563-44f2-9591-873b88939c1d";
-            var adminUserId = "b1c2d3e4-f5a6-7b8c-9d0e-1f2a3b4c5d6e";
+       
+            var adminRoleId = 1; 
+            var adminUserId = 1; 
 
-            // Bước 1: Thêm vai trò (Role) "Admin"
-            builder.Entity<IdentityRole>().HasData(new IdentityRole
+            builder.Entity<IdentityRole<int>>().HasData(new IdentityRole<int>
             {
                 Id = adminRoleId,
                 Name = "Admin",
@@ -42,9 +41,8 @@ namespace Web_LinhKien.Data
                 ConcurrencyStamp = "STATIC_ADMIN_ROLE_CONCURRENCY_STAMP"
             });
 
-            // Bước 2: Tạo người dùng Admin và băm mật khẩu
-            var passwordHasher = new PasswordHasher<IdentityUser>();
-            var adminUser = new IdentityUser
+            var passwordHasher = new PasswordHasher<User>(); 
+            var adminUser = new User
             {
                 Id = adminUserId,
                 UserName = "admin@example.com",
@@ -52,21 +50,31 @@ namespace Web_LinhKien.Data
                 Email = "admin@example.com",
                 NormalizedEmail = "ADMIN@EXAMPLE.COM",
                 EmailConfirmed = true,
-                SecurityStamp = "A1B2C3D4-E5F6-7890-1234-567890ABCDEF",
-                ConcurrencyStamp = "STATIC_ADMIN_USER_CONCURRENCY_STAMP"
+                SecurityStamp = Guid.NewGuid().ToString(),
+                ConcurrencyStamp = Guid.NewGuid().ToString()
             };
-            // Mật khẩu mặc định: Admin@123. Hãy thay đổi mật khẩu này sau khi chạy lần đầu.
             adminUser.PasswordHash = passwordHasher.HashPassword(adminUser, "Admin@123");
 
-            // Thêm người dùng Admin vào cơ sở dữ liệu
-            builder.Entity<IdentityUser>().HasData(adminUser);
+            builder.Entity<User>().HasData(adminUser);
 
-            // Bước 3: Liên kết người dùng Admin với vai trò "Admin"
-            builder.Entity<IdentityUserRole<string>>().HasData(new IdentityUserRole<string>
+            builder.Entity<IdentityUserRole<int>>().HasData(new IdentityUserRole<int>
             {
                 RoleId = adminRoleId,
                 UserId = adminUserId
             });
+            
+            builder.Entity<Category>().HasData(
+                new Category { Id = 1, Name = "Hàng thanh lý" },
+                new Category { Id = 2, Name = "Linh kiện điện tử" },
+                new Category { Id = 3, Name = "VDK-IC chức năng" },
+                new Category { Id = 4, Name = "Module -Cảm Biến" },
+                new Category { Id = 5, Name = "Phụ Kiện Điện Tử" },
+                new Category { Id = 6, Name = "Kết Nối" },
+                new Category { Id = 7, Name = "LED-LCD-Đèn báo" },
+                new Category { Id = 8, Name = "Pin-Nguồn" }, // Sửa lỗi chính tả nếu cần
+                new Category { Id = 9, Name = "Thiết bị - Phụ Trợ" },
+                new Category { Id = 10, Name = "Điện tử ứng dụng" }
+            );
         }
     }
 }

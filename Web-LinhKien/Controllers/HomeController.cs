@@ -6,7 +6,6 @@ namespace Web_LinhKien.Controllers
     {
         public IActionResult Index()
         {
-            // Logic để lấy dữ liệu sản phẩm nổi bật, tin tức mới...
             return View();
         }
 

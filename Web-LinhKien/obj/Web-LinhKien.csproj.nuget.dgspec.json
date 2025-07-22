@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\leehi\\RiderProjects\\WebLinhKien\\Web-LinhKien\\Web-LinhKien.csproj": {}
+    "C:\\Users\\leehi\\RiderProjects\\Web_LinhKien\\Web-LinhKien\\Web-LinhKien.csproj": {}
   },
   "projects": {
-    "C:\\Users\\leehi\\RiderProjects\\WebLinhKien\\Web-LinhKien\\Web-LinhKien.csproj": {
+    "C:\\Users\\leehi\\RiderProjects\\Web_LinhKien\\Web-LinhKien\\Web-LinhKien.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\leehi\\RiderProjects\\WebLinhKien\\Web-LinhKien\\Web-LinhKien.csproj",
+        "projectUniqueName": "C:\\Users\\leehi\\RiderProjects\\Web_LinhKien\\Web-LinhKien\\Web-LinhKien.csproj",
         "projectName": "Web-LinhKien",
-        "projectPath": "C:\\Users\\leehi\\RiderProjects\\WebLinhKien\\Web-LinhKien\\Web-LinhKien.csproj",
+        "projectPath": "C:\\Users\\leehi\\RiderProjects\\Web_LinhKien\\Web-LinhKien\\Web-LinhKien.csproj",
         "packagesPath": "C:\\Users\\leehi\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\leehi\\RiderProjects\\WebLinhKien\\Web-LinhKien\\obj\\",
+        "outputPath": "C:\\Users\\leehi\\RiderProjects\\Web_LinhKien\\Web-LinhKien\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
