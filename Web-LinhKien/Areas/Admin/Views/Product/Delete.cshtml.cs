@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace Web_LinkKien.Areas.Admin.Views.Product;
+namespace Web_LinhKien.Areas.Admin.Views.Product;
 
 public class Delete : PageModel
 {

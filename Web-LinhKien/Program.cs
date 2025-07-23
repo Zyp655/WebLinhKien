@@ -3,35 +3,52 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Web_LinhKien.Data;
-using Web_LinhKien.Models; // Thêm namespace của User model
+using Web_LinhKien.Models;
 using Web_LinhKien.Services;
+using Microsoft.AspNetCore.Builder; 
+using Microsoft.Extensions.DependencyInjection; 
+using System; 
 
 var builder = WebApplication.CreateBuilder(args);
 
-// 1. Cấu hình Connection String cho SQL Server
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? 
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ??
                        throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
 
-// 2. Đăng ký AppDbContext với Entity Framework Core
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(connectionString));
 
-// 3. Cấu hình ASP.NET Core Identity
-// Thay đổi IdentityUser thành User và IdentityRole thành IdentityRole<int>
 builder.Services.AddDefaultIdentity<User>(options => options.SignIn.RequireConfirmedAccount = false)
-    .AddRoles<IdentityRole<int>>() // Sử dụng IdentityRole<int> vì User.Id là int
+    .AddRoles<IdentityRole<int>>()
     .AddEntityFrameworkStores<AppDbContext>();
 
-// 4. Đăng ký Email Service
 builder.Services.AddScoped<IEmailService, EmailService>();
 
-// Add services to the container.
 builder.Services.AddControllersWithViews();
-builder.Services.AddRazorPages(); // Cần thiết cho Identity UI
+builder.Services.AddRazorPages(); 
+
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(5); 
+    options.Cookie.HttpOnly = true; 
+    options.Cookie.IsEssential = true; 
+});
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    try
+    {
+        await SeedData.Initialize(services);
+    }
+    catch (Exception ex)
+    {
+        var logger = services.GetRequiredService<ILogger<Program>>();
+        logger.LogError(ex, "An error occurred while seeding the database.");
+    }
+}
+
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
@@ -43,22 +60,20 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
-// 5. Thêm Authentication và Authorization Middleware
+app.UseSession(); 
+
 app.UseAuthentication();
 app.UseAuthorization();
 
-// 6. Cấu hình Routing cho Admin Area
 app.MapAreaControllerRoute(
     name: "Admin",
     areaName: "Admin",
     pattern: "Admin/{controller=Dashboard}/{action=Index}/{id?}");
 
-// Route mặc định cho các controller công khai
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
-// Cấu hình cho Identity UI (Razor Pages)
 app.MapRazorPages();
 
 app.Run();

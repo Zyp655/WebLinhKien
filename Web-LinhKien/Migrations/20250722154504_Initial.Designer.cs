@@ -9,7 +9,7 @@ using Web_LinhKien.Data;
 
 #nullable disable
 
-namespace Web_LinkKien.Migrations
+namespace Web_LinhKien.Migrations
 {
     [DbContext(typeof(AppDbContext))]
     [Migration("20250722154504_Initial")]

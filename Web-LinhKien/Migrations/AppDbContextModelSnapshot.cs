@@ -8,7 +8,7 @@ using Web_LinhKien.Data;
 
 #nullable disable
 
-namespace Web_LinkKien.Migrations
+namespace Web_LinhKien.Migrations
 {
     [DbContext(typeof(AppDbContext))]
     partial class AppDbContextModelSnapshot : ModelSnapshot

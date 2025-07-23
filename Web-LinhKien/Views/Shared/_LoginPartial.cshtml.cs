@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace Web_LinhKien.Views.Account;
+namespace Web_LinhKien.Views.Shared;
 
-public class Login : PageModel
+public class _LoginPartial : PageModel
 {
     public void OnGet()
     {

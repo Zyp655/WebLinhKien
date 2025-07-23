@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace Web_LinkKien.Views.Account;
+namespace Web_LinhKien.Views.Account;
 
 public class Register : PageModel
 {

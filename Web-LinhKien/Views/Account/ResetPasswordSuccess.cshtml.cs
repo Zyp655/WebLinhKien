@@ -2,7 +2,7 @@
 
 namespace Web_LinhKien.Views.Account;
 
-public class Login : PageModel
+public class ResetPasswordSuccess : PageModel
 {
     public void OnGet()
     {

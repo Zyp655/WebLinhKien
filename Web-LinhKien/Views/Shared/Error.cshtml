@@ -1,25 +1,30 @@
-﻿@model Web_LinkKien.Models.ErrorViewModel
+﻿@* File: Views/Shared/Error.cshtml *@
+@model Web_LinhKien.Models.ErrorViewModel 
 @{
-    ViewData["Title"] = "Error";
+    ViewData["Title"] = "Lỗi";
 }
 
-<h1 class="text-danger">Error.</h1>
-<h2 class="text-danger">An error occurred while processing your request.</h2>
+<h1 class="text-danger">Lỗi.</h1>
+<h2 class="text-danger">Đã xảy ra lỗi khi xử lý yêu cầu của bạn.</h2>
 
-@if (Model.ShowRequestId)
+@if (Model != null && Model.ShowRequestId) // Kiểm tra Model null
 {
     <p>
         <strong>Request ID:</strong> <code>@Model.RequestId</code>
     </p>
 }
+@if (Model != null && !string.IsNullOrEmpty(Model.Message)) // Kiểm tra Model null và Message
+{
+    <p>
+        <strong>Thông báo:</strong> <code>@Model.Message</code>
+    </p>
+}
 
-<h3>Development Mode</h3>
+<h3>Chế độ phát triển</h3>
 <p>
-    Swapping to <strong>Development</strong> environment will display more detailed information about the error that occurred.
+    Hoán đổi môi trường sang <strong>Development</strong> sẽ hiển thị thông tin chi tiết hơn về lỗi xảy ra.
 </p>
 <p>
-    <strong>The Development environment shouldn't be enabled for deployed applications.</strong>
-    It can result in displaying sensitive information from exceptions to end users.
-    For local debugging, enable the <strong>Development</strong> environment by setting the <strong>ASPNETCORE_ENVIRONMENT</strong> environment variable to <strong>Development</strong>
-    and restarting the app.
+    <strong>Môi trường Development không nên được bật cho các ứng dụng đã triển khai.</strong> Nó thường có thể dẫn đến việc hiển thị các ngoại lệ nhạy cảm cho người dùng cuối.
+    Để biết thông tin chi tiết hơn, hãy xem <a href="http://go.microsoft.com/fwlink/?LinkID=615852">Tài liệu ASP.NET Core</a>.
 </p>

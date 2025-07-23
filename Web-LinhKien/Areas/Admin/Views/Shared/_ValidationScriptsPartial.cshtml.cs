@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace Web_LinkKien.Areas.Admin.Views.Shared;
+namespace Web_LinhKien.Areas.Admin.Views.Shared;
 
 public class _ValidationScriptsPartial : PageModel
 {

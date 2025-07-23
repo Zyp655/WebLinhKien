@@ -1,4 +1,4 @@
-﻿namespace Web_LinkKien.Controllers;
+﻿namespace Web_LinhKien.Controllers;
 
 public class CartController
 {

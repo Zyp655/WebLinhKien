@@ -1,4 +1,4 @@
-﻿namespace Web_LinkKien.Areas.Controllers;
+﻿namespace Web_LinhKien.Areas.Controllers;
 
 public class OrderController
 {

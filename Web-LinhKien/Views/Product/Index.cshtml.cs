@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace Web_LinkKien.Views.Product;
+namespace Web_LinhKien.Views.Product;
 
 public class Index : PageModel
 {

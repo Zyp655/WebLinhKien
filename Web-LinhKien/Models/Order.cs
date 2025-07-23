@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using Web_LinkKien.Models;
+using Web_LinhKien.Models;
 
 namespace Web_LinhKien.Models
 {

@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace Web_LinkKien.Views.Cart;
+namespace Web_LinhKien.Views.Cart;
 
 public class Index : PageModel
 {

@@ -605,8 +605,8 @@ C:\Users\leehi\RiderProjects\WebLinhKien\Web-LinhKien\obj\Debug\net9.0\Web-LinhK
 C:\Users\leehi\RiderProjects\WebLinhKien\Web-LinhKien\obj\Debug\net9.0\ref\Web-LinhKien.dll
 C:\Users\leehi\RiderProjects\Web_LinhKien\Web-LinhKien\bin\Debug\net9.0\appsettings.Development.json
 C:\Users\leehi\RiderProjects\Web_LinhKien\Web-LinhKien\bin\Debug\net9.0\appsettings.json
-C:\Users\leehi\RiderProjects\Web_LinhKien\Web-LinhKien\bin\Debug\net9.0\Web-LinhKien.staticwebassets.endpoints.json
 C:\Users\leehi\RiderProjects\Web_LinhKien\Web-LinhKien\bin\Debug\net9.0\Web-LinhKien.staticwebassets.runtime.json
+C:\Users\leehi\RiderProjects\Web_LinhKien\Web-LinhKien\bin\Debug\net9.0\Web-LinhKien.staticwebassets.endpoints.json
 C:\Users\leehi\RiderProjects\Web_LinhKien\Web-LinhKien\bin\Debug\net9.0\Web-LinhKien.exe
 C:\Users\leehi\RiderProjects\Web_LinhKien\Web-LinhKien\bin\Debug\net9.0\Web-LinhKien.deps.json
 C:\Users\leehi\RiderProjects\Web_LinhKien\Web-LinhKien\bin\Debug\net9.0\Web-LinhKien.runtimeconfig.json
