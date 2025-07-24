@@ -265,17 +265,17 @@ namespace Web_LinhKien.Controllers
             var identityErrors = result.Errors.Select(e => e.Description).ToList();
             return Json(new { success = false, message = "Đặt lại mật khẩu thất bại.", errors = new { Password = identityErrors } });
         }
-
+        [HttpGet]
+        public IActionResult ResetPasswordSuccess()
+        {
+            return View();
+        }
         [HttpGet]
         public IActionResult ResetPassword()
         {
             return View();
         }
 
-        [HttpGet]
-        public IActionResult ResetPasswordSuccess()
-        {
-            return View();
-        }
+       
     }
 }
