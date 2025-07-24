@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
 
-namespace Web_LinhKien.Migrations
+namespace Web_LinkKien.Migrations
 {
     /// <inheritdoc />
     public partial class Initial : Migration
@@ -254,7 +254,7 @@ namespace Web_LinhKien.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { 1, 0, "6347ddcc-2447-4f8c-810d-5c8ea3e3f702", "admin@example.com", true, false, null, "ADMIN@EXAMPLE.COM", "ADMIN@EXAMPLE.COM", "AQAAAAIAAYagAAAAEHuUGbRCwE1AjzTKGnmt5ky2ewvXt5j2Sx1xFUMhKnVHuzYAfDcLlScnmgjGSbtGLQ==", null, false, "f5406e82-46ca-403b-9adb-3aa0af055d81", false, "admin@example.com" });
+                values: new object[] { 1, 0, "f37e9780-346e-4045-a56c-d95ea2e6f4a5", "admin@example.com", true, false, null, "ADMIN@EXAMPLE.COM", "ADMIN@EXAMPLE.COM", "AQAAAAIAAYagAAAAEH8bE7/N+LGu8zleMIEKU7sKy8I27kwErKDAyd6LQy0KJiHjEmZdXu6TS59fDgTJhQ==", null, false, "3ce31431-714a-4989-9cdb-17ec072985ea", false, "admin@example.com" });
 
             migrationBuilder.InsertData(
                 table: "Categories",
@@ -277,6 +277,18 @@ namespace Web_LinhKien.Migrations
                 table: "AspNetUserRoles",
                 columns: new[] { "RoleId", "UserId" },
                 values: new object[] { 1, 1 });
+
+            migrationBuilder.InsertData(
+                table: "Products",
+                columns: new[] { "Id", "CategoryId", "Description", "ImageUrl", "Name", "Price" },
+                values: new object[,]
+                {
+                    { 1, 2, "Board phát triển Arduino phổ biến", "/images/arduino_uno.jpg", "Arduino UNO R3", 150000m },
+                    { 2, 4, "Cảm biến nhiệt độ kỹ thuật số chống nước", "/images/ds18b20.jpg", "Cảm Biến Nhiệt Độ DS18B20", 35000m },
+                    { 3, 4, "Module Wi-Fi giá rẻ, dễ sử dụng", "/images/esp8266.jpg", "Mô-đun ESP8266 ESP-01S", 45000m },
+                    { 4, 5, "Gói 100 chiếc điện trở 10K Ohm", "/images/resistor_10k.jpg", "Điện trở 10K Ohm (1/4W)", 10000m },
+                    { 5, 7, "Gói 50 chiếc Led đơn 5mm màu xanh lá", "/images/led_green.jpg", "Led Đơn 5mm Xanh Lá", 8000m }
+                });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",

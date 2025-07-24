@@ -906,3 +906,4 @@ C:\Users\leehi\RiderProjects\Web_LinhKien\Web-LinhKien\obj\Debug\net9.0\refint\W
 C:\Users\leehi\RiderProjects\Web_LinhKien\Web-LinhKien\obj\Debug\net9.0\Web-LinhKien.pdb
 C:\Users\leehi\RiderProjects\Web_LinhKien\Web-LinhKien\obj\Debug\net9.0\Web-LinhKien.genruntimeconfig.cache
 C:\Users\leehi\RiderProjects\Web_LinhKien\Web-LinhKien\obj\Debug\net9.0\ref\Web-LinhKien.dll
+C:\Users\leehi\RiderProjects\Web_LinhKien\Web-LinhKien\bin\Debug\net9.0\Newtonsoft.Json.dll

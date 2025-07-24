@@ -1,5 +1,6 @@
 ﻿@* File: Views/Home/Index.cshtml *@
-@model List<Web_LinhKien.Models.Product> 
+@model List<Web_LinhKien.Models.Category> 
+
 @{
     ViewData["Title"] = "Trang chủ";
 }
@@ -9,44 +10,51 @@
     <p class="lead">Trang web mua sắm linh kiện điện tử chuyên nghiệp.</p>
 </div>
 
-<h3 class="mb-3">Sản phẩm nổi bật</h3>
-<div class="row">
-    @if (Model != null && Model.Any())
+@if (Model != null && Model.Any())
+{
+    @foreach (var category in Model) // Lặp qua từng danh mục
     {
-        @foreach (var product in Model)
+        // Kiểm tra nếu danh mục có sản phẩm thì mới hiển thị phần này
+        if (category.Products != null && category.Products.Any())
         {
-            <div class="col-md-4 col-lg-3 mb-4"> @* Sử dụng Bootstrap để sắp xếp sản phẩm *@
-                <div class="card h-100 shadow-sm"> @* Thêm shadow và đảm bảo chiều cao bằng nhau *@
-                    @if (!string.IsNullOrEmpty(product.ImageUrl))
-                    {
-                        <img src="@product.ImageUrl" class="card-img-top p-3" alt="@product.Name" style="max-height: 200px; object-fit: contain;"> @* Thêm padding *@
-                    }
-                    else
-                    {
-                        <img src="https://via.placeholder.com/200x150?text=No+Image" class="card-img-top p-3" alt="No Image" style="max-height: 200px; object-fit: contain;">
-                    }
-                    <div class="card-body d-flex flex-column">
-                        <h5 class="card-title text-truncate">@product.Name</h5> @* Giới hạn độ dài tiêu đề *@
-                        <p class="card-text text-muted mb-2"><small>@product.Category.Name</small></p> @* Hiển thị tên danh mục *@
-                        <p class="card-text flex-grow-1">@product.Description</p> @* Để mô tả có thể giãn ra *@
-                        <p class="card-text fs-5 fw-bold text-danger">@product.Price.ToString("N0") VNĐ</p> @* Định dạng giá tiền và làm nổi bật *@
-                        <div class="mt-auto"> @* Đẩy nút về phía dưới cùng của card *@
-                            <a href="#" class="btn btn-primary w-100">Xem chi tiết</a> @* Bạn có thể thêm link đến trang chi tiết sản phẩm *@
+            <h3 class="mt-4 mb-3" style="background-color: #f0f0f0; padding: 10px;">@category.Name</h3> @* Tiêu đề danh mục *@
+            <div class="row">
+                @foreach (var product in category.Products) // Lặp qua từng sản phẩm trong danh mục hiện tại
+                {
+                    <div class="col-md-4 col-lg-3 mb-4">
+                        <div class="card h-100 shadow-sm">
+                            @if (!string.IsNullOrEmpty(product.ImageUrl))
+                            {
+                                <img src="@product.ImageUrl" class="card-img-top p-3" alt="@product.Name" style="max-height: 200px; object-fit: contain;">
+                            }
+                            else
+                            {
+                                <img src="https://via.placeholder.com/200x150?text=No+Image" class="card-img-top p-3" alt="No Image" style="max-height: 200px; object-fit: contain;">
+                            }
+                            <div class="card-body d-flex flex-column">
+                                <h5 class="card-title text-truncate">@product.Name</h5>
+                                @* Không cần hiển thị Category.Name nữa vì nó đã là tiêu đề phía trên *@
+                                <p class="card-text flex-grow-1">@product.Description</p>
+                                <p class="card-text fs-5 fw-bold text-danger">@product.Price.ToString("N0") VNĐ</p>
+                                <div class="mt-auto">
+                                    <a asp-controller="Product" asp-action="Detail" asp-route-id="@product.Id" class="btn btn-primary w-100">Xem chi tiết</a>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
+                }
             </div>
         }
     }
-    else
-    {
-        <div class="col-12">
-            <div class="alert alert-info" role="alert">
-                Hiện tại không có sản phẩm nào được hiển thị.
-            </div>
+}
+else
+{
+    <div class="col-12">
+        <div class="alert alert-info" role="alert">
+            Hiện tại không có sản phẩm nào được hiển thị.
         </div>
-    }
-</div>
+    </div>
+}
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />

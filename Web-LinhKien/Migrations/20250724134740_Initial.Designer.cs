@@ -9,10 +9,10 @@ using Web_LinhKien.Data;
 
 #nullable disable
 
-namespace Web_LinhKien.Migrations
+namespace Web_LinkKien.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250722154504_Initial")]
+    [Migration("20250724134740_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -338,6 +338,53 @@ namespace Web_LinhKien.Migrations
                     b.HasIndex("CategoryId");
 
                     b.ToTable("Products");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CategoryId = 2,
+                            Description = "Board phát triển Arduino phổ biến",
+                            ImageUrl = "/images/arduino_uno.jpg",
+                            Name = "Arduino UNO R3",
+                            Price = 150000m
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CategoryId = 4,
+                            Description = "Cảm biến nhiệt độ kỹ thuật số chống nước",
+                            ImageUrl = "/images/ds18b20.jpg",
+                            Name = "Cảm Biến Nhiệt Độ DS18B20",
+                            Price = 35000m
+                        },
+                        new
+                        {
+                            Id = 3,
+                            CategoryId = 4,
+                            Description = "Module Wi-Fi giá rẻ, dễ sử dụng",
+                            ImageUrl = "/images/esp8266.jpg",
+                            Name = "Mô-đun ESP8266 ESP-01S",
+                            Price = 45000m
+                        },
+                        new
+                        {
+                            Id = 4,
+                            CategoryId = 5,
+                            Description = "Gói 100 chiếc điện trở 10K Ohm",
+                            ImageUrl = "/images/resistor_10k.jpg",
+                            Name = "Điện trở 10K Ohm (1/4W)",
+                            Price = 10000m
+                        },
+                        new
+                        {
+                            Id = 5,
+                            CategoryId = 7,
+                            Description = "Gói 50 chiếc Led đơn 5mm màu xanh lá",
+                            ImageUrl = "/images/led_green.jpg",
+                            Name = "Led Đơn 5mm Xanh Lá",
+                            Price = 8000m
+                        });
                 });
 
             modelBuilder.Entity("Web_LinhKien.Models.User", b =>
@@ -412,15 +459,15 @@ namespace Web_LinhKien.Migrations
                         {
                             Id = 1,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "6347ddcc-2447-4f8c-810d-5c8ea3e3f702",
+                            ConcurrencyStamp = "f37e9780-346e-4045-a56c-d95ea2e6f4a5",
                             Email = "admin@example.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@EXAMPLE.COM",
                             NormalizedUserName = "ADMIN@EXAMPLE.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEHuUGbRCwE1AjzTKGnmt5ky2ewvXt5j2Sx1xFUMhKnVHuzYAfDcLlScnmgjGSbtGLQ==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEH8bE7/N+LGu8zleMIEKU7sKy8I27kwErKDAyd6LQy0KJiHjEmZdXu6TS59fDgTJhQ==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "f5406e82-46ca-403b-9adb-3aa0af055d81",
+                            SecurityStamp = "3ce31431-714a-4989-9cdb-17ec072985ea",
                             TwoFactorEnabled = false,
                             UserName = "admin@example.com"
                         });

@@ -5,9 +5,9 @@ using Microsoft.EntityFrameworkCore;
 using Web_LinhKien.Data;
 using Web_LinhKien.Models;
 using Web_LinhKien.Services;
-using Microsoft.AspNetCore.Builder; 
-using Microsoft.Extensions.DependencyInjection; 
-using System; 
+using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.DependencyInjection;
+using System;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,20 +17,40 @@ var connectionString = builder.Configuration.GetConnectionString("DefaultConnect
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(connectionString));
 
-builder.Services.AddDefaultIdentity<User>(options => options.SignIn.RequireConfirmedAccount = false)
-    .AddRoles<IdentityRole<int>>()
-    .AddEntityFrameworkStores<AppDbContext>();
+builder.Services.AddDefaultIdentity<User>(options =>
+{
+    options.SignIn.RequireConfirmedAccount = false;
+
+    // Cấu hình các tùy chọn cookie ứng dụng thông qua ConfigureApplicationCookie
+    options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
+    options.Lockout.MaxFailedAccessAttempts = 5;
+    options.Lockout.AllowedForNewUsers = true;
+    options.User.RequireUniqueEmail = true;
+})
+.AddRoles<IdentityRole<int>>()
+.AddEntityFrameworkStores<AppDbContext>();
+
+// THAY THẾ CẤU HÌNH COOKIE Ở ĐÂY
+builder.Services.ConfigureApplicationCookie(options =>
+{
+    options.LoginPath = "/Account/Login";
+    options.LogoutPath = "/Account/Logout";
+    options.AccessDeniedPath = "/Account/AccessDenied";
+    options.ExpireTimeSpan = TimeSpan.FromMinutes(60); // Tùy chọn: Thời gian hết hạn của cookie
+    options.SlidingExpiration = true; // Tùy chọn: Làm mới thời gian hết hạn khi có hoạt động
+});
+
 
 builder.Services.AddScoped<IEmailService, EmailService>();
 
 builder.Services.AddControllersWithViews();
-builder.Services.AddRazorPages(); 
+builder.Services.AddRazorPages();
 
 builder.Services.AddSession(options =>
 {
-    options.IdleTimeout = TimeSpan.FromMinutes(5); 
-    options.Cookie.HttpOnly = true; 
-    options.Cookie.IsEssential = true; 
+    options.IdleTimeout = TimeSpan.FromMinutes(5);
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
 });
 
 var app = builder.Build();
@@ -60,7 +80,7 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
-app.UseSession(); 
+app.UseSession();
 
 app.UseAuthentication();
 app.UseAuthorization();

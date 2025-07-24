@@ -267,7 +267,7 @@ namespace Web_LinhKien.Controllers
         }
 
         [HttpGet]
-        public IActionResult ResetPasswordConfirmation()
+        public IActionResult ResetPassword()
         {
             return View();
         }

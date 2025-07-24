@@ -1,19 +1,82 @@
-﻿@page
-@model Web_LinhKien.Views.Cart.Index
+﻿
+@model List<Web_LinhKien.Models.CartItem>
 
 @{
-    Layout = null;
+    ViewData["Title"] = "Giỏ hàng của bạn";
+    decimal cartTotal = Model.Sum(item => item.Total);
 }
 
-<!DOCTYPE html>
+<h2 class="mb-4">Giỏ hàng của bạn</h2>
 
-<html>
-<head>
-    <title></title>
-</head>
-<body>
-<div>
-    
-</div>
-</body>
-</html>
+@if (Model == null || !Model.Any())
+{
+    <div class="alert alert-info" role="alert">
+        Giỏ hàng của bạn đang trống.
+        <a asp-controller="Home" asp-action="Index">Tiếp tục mua sắm</a>
+    </div>
+}
+else
+{
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>Sản phẩm</th>
+                <th>Hình ảnh</th>
+                <th>Giá</th>
+                <th>Số lượng</th>
+                <th>Tổng cộng</th>
+                <th>Thao tác</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.ProductName</td>
+                    <td>
+                        @if (!string.IsNullOrEmpty(item.ImageUrl))
+                        {
+                            <img src="@Url.Content(item.ImageUrl)" alt="@item.ProductName" style="width: 80px; height: 80px; object-fit: contain;" />
+                        }
+                        else
+                        {
+                            <img src="https://via.placeholder.com/80x80?text=No+Image" alt="No Image" style="width: 80px; height: 80px; object-fit: contain;" />
+                        }
+                    </td>
+                    <td>@item.Price.ToString("N0") VNĐ</td>
+                    <td>
+                        <form asp-controller="Cart" asp-action="UpdateQuantity" method="post" class="d-flex align-items-center">
+                            <input type="hidden" name="productId" value="@item.ProductId" />
+                            <input type="number" name="quantity" value="@item.Quantity" min="1" class="form-control form-control-sm" style="width: 70px; margin-right: 5px;" onchange="this.form.submit()" />
+                            <button type="submit" class="btn btn-sm btn-info" title="Cập nhật số lượng"><i class="bi bi-arrow-clockwise"></i></button> @* Icon cập nhật *@
+                        </form>
+                    </td>
+                    <td>@item.Total.ToString("N0") VNĐ</td>
+                    <td>
+                        <form asp-controller="Cart" asp-action="RemoveItem" method="post">
+                            <input type="hidden" name="productId" value="@item.ProductId" />
+                            <button type="submit" class="btn btn-danger btn-sm" title="Xóa sản phẩm"><i class="bi bi-trash"></i></button> @* Icon xóa *@
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="4" class="text-end"><strong>Tổng tiền giỏ hàng:</strong></td>
+                <td><strong>@cartTotal.ToString("N0") VNĐ</strong></td>
+                <td></td>
+            </tr>
+        </tfoot>
+    </table>
+
+    <div class="d-flex justify-content-between mt-4">
+        <a asp-controller="Home" asp-action="Index" class="btn btn-secondary">Tiếp tục mua sắm</a>
+        <a asp-controller="Order" asp-action="Checkout" class="btn btn-success">Tiến hành thanh toán</a> @* Bạn sẽ cần tạo OrderController và Checkout action sau *@
+    </div>
+}
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"> @* Thêm Bootstrap Icons *@
+}

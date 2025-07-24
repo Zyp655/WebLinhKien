@@ -14,7 +14,64 @@
         <p><strong>Danh mục:</strong> @Model.Category.Name</p>
         <h2>@Model.Price.ToString("N0") VNĐ</h2>
         <p>@Model.Description</p>
-        <button class="btn btn-success">Thêm vào giỏ hàng</button>
+        <form id="addToCartForm" asp-controller="Cart" asp-action="AddItemToCart" method="post"> @* THÊM ID CHO FORM *@
+            <input type="hidden" name="productId" value="@Model.Id" />
+            <input type="number" name="quantity" value="1" min="1" class="form-control mb-2" style="width: 100px; display: inline-block;" />
+            <button type="submit" class="btn btn-success">Thêm vào giỏ hàng</button>
+        </form>
         <a asp-action="Index" class="btn btn-secondary">Quay lại danh sách</a>
+
+        @* THÊM MỘT NƠI ĐỂ HIỂN THỊ THÔNG BÁO *@
+        <div id="cart-message" class="mt-3"></div>
     </div>
 </div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        $(document).ready(function () {
+            // Lắng nghe sự kiện submit của form
+            $('#addToCartForm').submit(function (event) {
+                event.preventDefault(); // Ngăn chặn hành vi gửi form mặc định
+
+                var form = $(this);
+                var url = form.attr('action');
+                var method = form.attr('method');
+                var data = form.serialize(); // Lấy dữ liệu từ form
+
+                $.ajax({
+                    url: url,
+                    method: method,
+                    data: data,
+                    success: function (response) {
+                        var messageDiv = $('#cart-message');
+                        if (response.success) {
+                            messageDiv.text(response.message).removeClass('text-danger').addClass('text-success');
+                            // Cập nhật số lượng item trên header
+                            if (response.itemCount !== undefined) {
+                                $('#cart-item-count').text(response.itemCount);
+                            }
+                            // Tùy chọn: Xóa thông báo sau vài giây
+                            setTimeout(function () {
+                                messageDiv.text('');
+                            }, 3000);
+                        } else {
+                            messageDiv.text(response.message).removeClass('text-success').addClass('text-danger');
+                            // Nếu yêu cầu đăng nhập, chuyển hướng người dùng
+                            if (response.redirectTo) {
+                                window.location.href = response.redirectTo;
+                            }
+                        }
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        $('#cart-message').text('Đã xảy ra lỗi khi thêm sản phẩm.').removeClass('text-success').addClass('text-danger');
+                        console.error("AJAX error:", textStatus, errorThrown, jqXHR);
+                    }
+                });
+            });
+        });
+
+        // Hàm updateCartItemCount trong _Layout.cshtml vẫn sẽ hoạt động tốt khi trang tải
+        // và khi có sự kiện AJAX thành công, chúng ta gọi nó lại để cập nhật
+    </script>
+}

@@ -6,6 +6,7 @@
     <title>@ViewData["Title"] - Web Linh Kiện</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"> @* Thêm Bootstrap Icons *@
 </head>
 <body>
     <header>
@@ -25,18 +26,17 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Product" asp-action="Index">Sản phẩm</a>
                         </li>
                     </ul>
-                    
-                    @* <ul class="navbar-nav"> // Dòng này và khối bên dưới sẽ được thay thế
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Login">Đăng nhập</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Register">Đăng ký</a>
-                        </li>
-                    </ul> *@
 
-                    <partial name="_LoginPartial" /> @* <-- ĐÃ THÊM DÒNG NÀY VÀO ĐÂY *@
+                    <ul class="navbar-nav">
+                        <partial name="_LoginPartial" /> @* Partial view cho Đăng nhập/Đăng ký/Xin chào *@
 
+                        @* THÊM GIỎ HÀNG NHỎ GỌN VÀO ĐÂY *@
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-controller="Cart" asp-action="Index">
+                                <i class="bi bi-cart"></i> Giỏ hàng (<span id="cart-item-count">0</span>)
+                            </a>
+                        </li>
+                    </ul>
                 </div>
             </div>
         </nav>
@@ -57,5 +57,25 @@
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
+
+    @* Script để cập nhật số lượng item trong giỏ hàng trên header *@
+    <script>
+        $(document).ready(function () {
+            updateCartItemCount(); // Gọi hàm khi trang tải xong
+
+            // Hàm để cập nhật số lượng item trong giỏ hàng
+            function updateCartItemCount() {
+                $.get("/Cart/GetCartItemCount", function (data) {
+                    $('#cart-item-count').text(data);
+                });
+            }
+
+            // Gắn sự kiện submit cho form "Thêm vào giỏ hàng" để cập nhật số lượng sau khi thêm
+            // Đây là một cách đơn giản, bạn có thể cần một cách mạnh mẽ hơn nếu có nhiều form
+            $('form[asp-action="AddItemToCart"]').on('submit', function () {
+                setTimeout(updateCartItemCount, 500); // Đợi một chút để session được cập nhật
+            });
+        });
+    </script>
 </body>
 </html>
