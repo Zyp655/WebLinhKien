@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Http; 
 
 namespace Web_LinhKien.Areas.Admin.Models
 {
@@ -9,21 +10,24 @@ namespace Web_LinhKien.Areas.Admin.Models
 
         [Required(ErrorMessage = "Tên sản phẩm là bắt buộc.")]
         [MaxLength(255)]
+        [Display(Name = "Tên sản phẩm")]
         public string Name { get; set; }
 
+        [Display(Name = "Mô tả")]
         public string Description { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Giá sản phẩm là bắt buộc.")]
+        [Range(0.01, double.MaxValue, ErrorMessage = "Giá phải lớn hơn 0.")] 
         public decimal Price { get; set; }
+        
+        [Display(Name = "Hình ảnh")] 
+        public IFormFile? ImageFile { get; set; }
 
-        // Trường này để hiển thị tên tệp ảnh khi upload
-        public IFormFile ImageFile { get; set; } 
-
-        [Required]
+        [Required(ErrorMessage = "Danh mục là bắt buộc.")]
         [Display(Name = "Danh mục")]
         public int CategoryId { get; set; }
 
-        // Danh sách các danh mục để tạo dropdown list
-        public IEnumerable<SelectListItem> Categories { get; set; }
+       
+        public IEnumerable<SelectListItem> Categories { get; set; } = Enumerable.Empty<SelectListItem>();
     }
 }

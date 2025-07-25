@@ -14,7 +14,6 @@
         <form asp-action="Edit" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Id" />
-            @* Không cần ExistingImageUrl vì nó đã bị loại bỏ khỏi ViewModel *@
 
             <div class="form-group mb-3">
                 <label asp-for="Name" class="control-label"></label>
@@ -32,7 +31,7 @@
                 <span asp-validation-for="Price" class="text-danger"></span>
             </div>
             <div class="form-group mb-3">
-                <label asp-for="ImageFile" class="control-label">Tải lên hình ảnh mới (Để trống nếu không muốn thay đổi)</label> @* Thêm lại Display Name ở đây nếu bạn muốn *@
+                <label asp-for="ImageFile" class="control-label">Tải lên hình ảnh mới (Để trống nếu không muốn thay đổi)</label>
                 <input type="file" asp-for="ImageFile" class="form-control" />
                 <span asp-validation-for="ImageFile" class="text-danger"></span>
             </div>

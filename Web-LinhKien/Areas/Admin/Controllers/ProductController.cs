@@ -1,11 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
-using Web_LinhKien.Areas.Admin.Models; 
+using Web_LinhKien.Areas.Admin.Models;
 using Web_LinhKien.Data;
 using Microsoft.EntityFrameworkCore;
-using Web_LinhKien.Models; 
+using Web_LinhKien.Models;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using System.IO; 
+using System.IO;
+using Microsoft.AspNetCore.Hosting; // Đảm bảo có namespace này
 
 namespace Web_LinhKien.Areas.Admin.Controllers
 {
@@ -22,37 +23,15 @@ namespace Web_LinhKien.Areas.Admin.Controllers
             _env = env;
         }
 
-     
         public async Task<IActionResult> Index()
         {
-           
             var products = await _context.Products.Include(p => p.Category).ToListAsync();
             return View(products);
-        }
-
-      
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var product = await _context.Products
-                .Include(p => p.Category)
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (product == null)
-            {
-                return NotFound();
-            }
-
-            return View(product);
         }
 
         [HttpGet]
         public async Task<IActionResult> Create()
         {
-            
             var categories = await _context.Categories
                                         .Select(c => new SelectListItem { Value = c.Id.ToString(), Text = c.Name })
                                         .ToListAsync();
@@ -60,21 +39,18 @@ namespace Web_LinhKien.Areas.Admin.Controllers
             return View(viewModel);
         }
 
-       
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(AdminProductViewModel model)
         {
-            // Không cần ModelState.Remove("ImageUrl") nữa nếu ImageUrl không phải là thuộc tính của ViewModel hoặc Product Model không yêu cầu nó là Required
-
             if (ModelState.IsValid)
             {
                 string fileName = null;
                 if (model.ImageFile != null)
                 {
-                    
                     fileName = Guid.NewGuid().ToString() + Path.GetExtension(model.ImageFile.FileName);
-                    var filePath = Path.Combine(_env.WebRootPath, "images", "products", fileName); // Thư mục lưu ảnh
+                    // Đường dẫn tuyệt đối để lưu ảnh trong wwwroot/images/products
+                    var filePath = Path.Combine(_env.WebRootPath, "images", "products", fileName);
 
                     // Đảm bảo thư mục tồn tại
                     var directoryPath = Path.GetDirectoryName(filePath);
@@ -95,23 +71,32 @@ namespace Web_LinhKien.Areas.Admin.Controllers
                     Description = model.Description,
                     Price = model.Price,
                     CategoryId = model.CategoryId,
-                    ImageUrl = fileName != null ? "/images/products/" + fileName : null 
+                    // Lưu đường dẫn tương đối để dễ hiển thị trên web
+                    ImageUrl = fileName != null ? "/images/products/" + fileName : null
                 };
 
-                _context.Products.Add(product);
-                await _context.SaveChangesAsync();
-                TempData["SuccessMessage"] = "Sản phẩm đã được thêm mới thành công.";
-                return RedirectToAction(nameof(Index));
+                try
+                {
+                    _context.Products.Add(product);
+                    await _context.SaveChangesAsync();
+                    TempData["SuccessMessage"] = "Sản phẩm đã được thêm mới thành công.";
+                    return RedirectToAction(nameof(Index));
+                }
+                catch (Exception ex)
+                {
+                   
+                    ModelState.AddModelError("", "Có lỗi xảy ra khi lưu sản phẩm: " + ex.Message);
+                  
+                }
             }
 
-            // Nếu có lỗi validation, tải lại danh sách categories và trả về view với model hiện tại
+           
             model.Categories = await _context.Categories
                                         .Select(c => new SelectListItem { Value = c.Id.ToString(), Text = c.Name })
                                         .ToListAsync();
             return View(model);
         }
 
-      
         [HttpGet]
         public async Task<IActionResult> Edit(int? id)
         {
@@ -126,7 +111,6 @@ namespace Web_LinhKien.Areas.Admin.Controllers
                 return NotFound();
             }
 
-         
             var viewModel = new AdminProductViewModel
             {
                 Id = product.Id,
@@ -143,7 +127,6 @@ namespace Web_LinhKien.Areas.Admin.Controllers
             return View(viewModel);
         }
 
-    
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, AdminProductViewModel model)
@@ -152,7 +135,6 @@ namespace Web_LinhKien.Areas.Admin.Controllers
             {
                 return NotFound();
             }
-            
 
             if (ModelState.IsValid)
             {
@@ -167,10 +149,9 @@ namespace Web_LinhKien.Areas.Admin.Controllers
                 productToUpdate.Price = model.Price;
                 productToUpdate.CategoryId = model.CategoryId;
 
-            
+               
                 if (model.ImageFile != null)
                 {
-                    // Xóa ảnh cũ nếu có
                     if (!string.IsNullOrEmpty(productToUpdate.ImageUrl))
                     {
                         var oldImagePath = Path.Combine(_env.WebRootPath, productToUpdate.ImageUrl.TrimStart('/'));
@@ -180,10 +161,10 @@ namespace Web_LinhKien.Areas.Admin.Controllers
                         }
                     }
 
-                  
+                    // Lưu ảnh mới
                     var fileName = Guid.NewGuid().ToString() + Path.GetExtension(model.ImageFile.FileName);
                     var filePath = Path.Combine(_env.WebRootPath, "images", "products", fileName);
-                    
+
                     var directoryPath = Path.GetDirectoryName(filePath);
                     if (!Directory.Exists(directoryPath))
                     {
@@ -196,13 +177,13 @@ namespace Web_LinhKien.Areas.Admin.Controllers
                     }
                     productToUpdate.ImageUrl = "/images/products/" + fileName;
                 }
-              
 
                 try
                 {
                     _context.Update(productToUpdate);
                     await _context.SaveChangesAsync();
                     TempData["SuccessMessage"] = "Sản phẩm đã được cập nhật thành công.";
+                    return RedirectToAction(nameof(Index));
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -212,20 +193,23 @@ namespace Web_LinhKien.Areas.Admin.Controllers
                     }
                     else
                     {
-                        throw;
+                        throw; 
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                catch (Exception ex)
+                {
+                    
+                    ModelState.AddModelError("", "Có lỗi xảy ra khi cập nhật sản phẩm: " + ex.Message);
+                }
             }
 
-        
+            
             model.Categories = await _context.Categories
                                         .Select(c => new SelectListItem { Value = c.Id.ToString(), Text = c.Name })
                                         .ToListAsync();
             return View(model);
         }
 
-       
         [HttpGet]
         public async Task<IActionResult> Delete(int? id)
         {
@@ -235,7 +219,7 @@ namespace Web_LinhKien.Areas.Admin.Controllers
             }
 
             var product = await _context.Products
-                .Include(p => p.Category) 
+                .Include(p => p.Category)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (product == null)
             {
@@ -245,7 +229,6 @@ namespace Web_LinhKien.Areas.Admin.Controllers
             return View(product);
         }
 
-     
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
@@ -253,10 +236,9 @@ namespace Web_LinhKien.Areas.Admin.Controllers
             var product = await _context.Products.FindAsync(id);
             if (product == null)
             {
-                return NotFound(); 
+                return NotFound();
             }
-
-            // Xóa file ảnh liên quan nếu có
+            
             if (!string.IsNullOrEmpty(product.ImageUrl))
             {
                 var imagePath = Path.Combine(_env.WebRootPath, product.ImageUrl.TrimStart('/'));
@@ -266,9 +248,17 @@ namespace Web_LinhKien.Areas.Admin.Controllers
                 }
             }
 
-            _context.Products.Remove(product);
-            await _context.SaveChangesAsync();
-            TempData["SuccessMessage"] = "Sản phẩm đã được xóa thành công.";
+            try
+            {
+                _context.Products.Remove(product);
+                await _context.SaveChangesAsync();
+                TempData["SuccessMessage"] = "Sản phẩm đã được xóa thành công.";
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = "Có lỗi xảy ra khi xóa sản phẩm: " + ex.Message;
+               
+            }
             return RedirectToAction(nameof(Index));
         }
 

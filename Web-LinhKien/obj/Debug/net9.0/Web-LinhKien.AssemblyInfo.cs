@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Web-LinhKien")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+ef0efede0253dfdbdfa1534be77d3b8b7cbb871f")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+2967132230e231315e9066a481c6a0d8ac166d6f")]
 [assembly: System.Reflection.AssemblyProductAttribute("Web-LinhKien")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Web-LinhKien")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
